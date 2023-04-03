@@ -12,7 +12,11 @@ public class GameManager : MonoBehaviour
     public TMP_Text txtPlayerScoreL;
     public TMP_Text txtPlayerScoreR;
 
+    public GameObject panelWin;
+    public TMP_Text playerWin;
+
     public static GameManager instance;
+    public SceneManagement sm;
     public void Awake()
     {
         if (instance == null)
@@ -27,6 +31,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        panelWin.SetActive(false);
         txtPlayerScoreL.text = PlayerScoreL.ToString();
         txtPlayerScoreR.text = PlayerScoreR.ToString();
     }
@@ -50,15 +55,22 @@ public class GameManager : MonoBehaviour
     {
         if (PlayerScoreL == 30)
         {
-            Debug.Log("playerL win");
-            this.gameObject.SendMessage("ChangeScene", "Menu");
-            
+            panelWin.SetActive(true);
+            playerWin.text = "Player L Win!";
+            Invoke("ChangeTheScene", 2f);
         }
         else if (PlayerScoreR == 30)
         {
-            Debug.Log("playerR win");
-            this.gameObject.SendMessage("ChangeScene", "Menu");
+            panelWin.SetActive(true);
+            playerWin.text = "Player R Win!";
+            Invoke("ChangeTheScene", 2f);
         }
+    }
+
+    public void ChangeTheScene()
+    {
+        //this.gameObject.SendMessage("ChangeTheScene", "Menu");
+        sm.ChangeScene("Menu");
     }
 
 }
